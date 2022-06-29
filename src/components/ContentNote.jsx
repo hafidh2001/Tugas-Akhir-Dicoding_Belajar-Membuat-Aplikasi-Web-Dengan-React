@@ -9,6 +9,7 @@ const ContentNote = ({
   option,
   switchOption,
   onDelete,
+  switchArchiveButton,
 }) => {
   const dataCatatan = data.filter((data) => data.archived === false);
   const dataArchived = data.filter((data) => data.archived === true);
@@ -60,6 +61,7 @@ const ContentNote = ({
                       note={item}
                       onDelete={onDelete}
                       option={option}
+                      switchArchiveButton={switchArchiveButton}
                     />
                   ))
               ) : (
@@ -91,6 +93,7 @@ const ContentNote = ({
                       note={item}
                       onDelete={onDelete}
                       option={option}
+                      switchArchiveButton={switchArchiveButton}
                     />
                   ))
               ) : (

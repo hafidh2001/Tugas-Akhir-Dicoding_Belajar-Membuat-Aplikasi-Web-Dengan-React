@@ -25,6 +25,7 @@ class MyNote extends React.Component {
     this.onSearchNote = this.onSearchNote.bind(this);
     this.switchOption = this.switchOption.bind(this);
     this.deleteNote = this.deleteNote.bind(this);
+    this.switchArchiveButton = this.switchArchiveButton.bind(this);
   }
 
   onTitleChange(event) {
@@ -84,6 +85,16 @@ class MyNote extends React.Component {
     this.setState({ data: note });
   }
 
+  switchArchiveButton(id) {
+    this.setState((prevData) => ({
+      data: prevData.data.map((item) =>
+        item.id === id ? { ...item, archived: !item.archived } : item
+      ),
+    }));
+  }
+
+  // engge mas engge mas engge mas engge mas engge mas engge mas engge mas engge mas engge mas engge mas engge mas engge mas engge mas engge mas
+
   render() {
     return (
       <div className="note-app">
@@ -105,6 +116,7 @@ class MyNote extends React.Component {
               option={this.state.option}
               switchOption={this.switchOption}
               onDelete={this.deleteNote}
+              switchArchiveButton={this.switchArchiveButton}
             />
           </div>
         </div>
