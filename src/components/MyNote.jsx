@@ -3,6 +3,15 @@ import AddNote from "./AddNote";
 import ContentNote from "./ContentNote";
 import { getInitialData } from "../utils/data";
 
+/* 
+* Note : 
+* Pada initial-state id pada DataBaru, ketika menggunakan fungsi "+new Date()"" atau "new Date().getTime()" tidak menghasilkan unique-id ketika rentang waktu pendek
+*   - Hal ini mengakibatkan note memiliki ID yang sama
+*   - Hal ini mengakibatkan hapus / arsip berdasarkan ID men-trigger semua ID yang sama (data collapse / weird)
+* Solusi : 
+*   - value untuk id pada DataBaru, dibuat / diikutsertakan ketika pemberian value pada title / body
+*/
+
 class MyNote extends React.Component {
   constructor(props) {
     super(props);
@@ -10,7 +19,7 @@ class MyNote extends React.Component {
       data: getInitialData(),
       option: "catatan",
       dataBaru: {
-        id: +new Date(),
+        id: "",
         title: "",
         body: "",
         archived: false,
@@ -33,6 +42,7 @@ class MyNote extends React.Component {
       return {
         dataBaru: {
           ...prevData.dataBaru,
+          id: new Date().getTime(),
           title: event.target.value,
         },
       };
@@ -56,10 +66,12 @@ class MyNote extends React.Component {
     this.setState({
       data: [...this.state.data, this.state.dataBaru],
     });
+
     this.setState((prevData) => {
       return {
         dataBaru: {
           ...prevData.dataBaru,
+          id: "",
           title: "",
           body: "",
         },
@@ -86,14 +98,14 @@ class MyNote extends React.Component {
   }
 
   switchArchiveButton(id) {
-    this.setState((prevData) => ({
-      data: prevData.data.map((item) =>
-        item.id === id ? { ...item, archived: !item.archived } : item
-      ),
-    }));
+    this.setState((prevData) => {
+      return {
+        data: prevData.data.map((item) =>
+          item.id === id ? { ...item, archived: !item.archived } : item
+        ),
+      };
+    });
   }
-
-  // engge mas engge mas engge mas engge mas engge mas engge mas engge mas engge mas engge mas engge mas engge mas engge mas engge mas engge mas
 
   render() {
     return (
