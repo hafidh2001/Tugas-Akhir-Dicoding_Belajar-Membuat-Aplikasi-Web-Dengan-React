@@ -9,6 +9,7 @@ class MyNote extends React.Component {
     this.state = {
       data: getInitialData(),
       option: "catatan",
+      sisaKarakterTitle: 50,
       dataBaru: {
         title: "",
         body: "",
@@ -28,6 +29,7 @@ class MyNote extends React.Component {
   onTitleChange(event) {
     this.setState((prevData) => {
       return {
+        sisaKarakterTitle: 50 - event.target.value.slice(0, 50).length,
         dataBaru: {
           ...prevData.dataBaru,
           title:
@@ -116,6 +118,7 @@ class MyNote extends React.Component {
             <h1>MyNotes</h1>
             <AddNote
               dataBaru={this.state.dataBaru}
+              sisaKarakterTitle={this.state.sisaKarakterTitle}
               onTitleChange={this.onTitleChange}
               onBodyChange={this.onBodyChange}
               onSubmitData={this.onSubmitData}

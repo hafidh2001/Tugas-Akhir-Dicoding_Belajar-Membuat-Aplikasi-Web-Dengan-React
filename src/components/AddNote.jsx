@@ -1,10 +1,11 @@
 import React from "react";
 
-const AddNote = ({ dataBaru, onTitleChange, onBodyChange, onSubmitData }) => {
+const AddNote = ({ dataBaru, sisaKarakterTitle, onTitleChange, onBodyChange, onSubmitData }) => {
   return (
     <>
       <form autoComplete="off" id="add-note" className="cf" onSubmit={onSubmitData}>
         <div className="judul">
+          <p>Sisa Karakter : {sisaKarakterTitle}</p>
           <input
             type="text"
             name="judul"
