@@ -2,7 +2,14 @@ import React from "react";
 import SearchNote from "./SearchNote";
 import BoxNote from "./BoxNote";
 
-const ContentNote = ({ data, search, onSearchNote, option, switchOption, onDelete }) => {
+const ContentNote = ({
+  data,
+  search,
+  onSearchNote,
+  option,
+  switchOption,
+  onDelete,
+}) => {
   const dataCatatan = data.filter((data) => data.archived === false);
   const dataArchived = data.filter((data) => data.archived === true);
 
@@ -33,11 +40,27 @@ const ContentNote = ({ data, search, onSearchNote, option, switchOption, onDelet
             <>
               {!!dataCatatan && dataCatatan?.length !== 0 ? (
                 dataCatatan
+                  .filter((data) => {
+                    if (search !== "") {
+                      return (
+                        data.title
+                          .toLowerCase()
+                          .indexOf(search.trim().toLowerCase()) !== -1
+                      );
+                    } else {
+                      return data;
+                    }
+                  })
                   .sort((x, y) =>
                     new Date(x.createdAt) < new Date(y.createdAt) ? 1 : -1
                   )
                   .map((item, index) => (
-                    <BoxNote key={index} note={item} onDelete={onDelete} option={option} />
+                    <BoxNote
+                      key={index}
+                      note={item}
+                      onDelete={onDelete}
+                      option={option}
+                    />
                   ))
               ) : (
                 <p id="note-empty">Tidak ada catatan</p>
@@ -48,11 +71,27 @@ const ContentNote = ({ data, search, onSearchNote, option, switchOption, onDelet
             <>
               {!!dataArchived && dataArchived?.length !== 0 ? (
                 dataArchived
+                  .filter((data) => {
+                    if (search !== "") {
+                      return (
+                        data.title
+                          .toLowerCase()
+                          .indexOf(search.trim().toLowerCase()) !== -1
+                      );
+                    } else {
+                      return data;
+                    }
+                  })
                   .sort((x, y) =>
                     new Date(x.createdAt) < new Date(y.createdAt) ? 1 : -1
                   )
                   .map((item, index) => (
-                    <BoxNote key={index} note={item} onDelete={onDelete} option={option}/>
+                    <BoxNote
+                      key={index}
+                      note={item}
+                      onDelete={onDelete}
+                      option={option}
+                    />
                   ))
               ) : (
                 <p id="note-empty">Tidak ada arsip tersimpan</p>

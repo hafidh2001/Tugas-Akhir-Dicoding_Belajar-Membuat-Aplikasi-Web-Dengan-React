@@ -1,7 +1,6 @@
 import React from "react";
 
 const SearchNote = ({ search, onSearchNote }) => {
-  console.log(search);
   return (
     <>
       <form autoComplete="off" id="search-note">
