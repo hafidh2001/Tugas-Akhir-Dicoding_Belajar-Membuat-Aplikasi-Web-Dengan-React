@@ -3,15 +3,6 @@ import AddNote from "./AddNote";
 import ContentNote from "./ContentNote";
 import { getInitialData } from "../utils/data";
 
-/* 
-* Note : 
-* Pada initial-state id pada DataBaru, ketika menggunakan fungsi "+new Date()"" atau "new Date().getTime()" tidak menghasilkan unique-id ketika rentang waktu pendek
-*   - Hal ini mengakibatkan note memiliki ID yang sama
-*   - Hal ini mengakibatkan hapus / arsip berdasarkan ID men-trigger semua ID yang sama (data collapse / weird)
-* Solusi : 
-*   - value untuk id pada DataBaru, dibuat / diikutsertakan ketika pemberian value pada title / body
-*/
-
 class MyNote extends React.Component {
   constructor(props) {
     super(props);
@@ -19,11 +10,8 @@ class MyNote extends React.Component {
       data: getInitialData(),
       option: "catatan",
       dataBaru: {
-        id: "",
         title: "",
         body: "",
-        archived: false,
-        createdAt: new Date(),
       },
       search: "",
     };
@@ -42,8 +30,10 @@ class MyNote extends React.Component {
       return {
         dataBaru: {
           ...prevData.dataBaru,
-          id: new Date().getTime(),
-          title: event.target.value,
+          title:
+            event.target.value.length < 50
+              ? event.target.value
+              : event.target.value.slice(0, 50),
         },
       };
     });
@@ -54,7 +44,10 @@ class MyNote extends React.Component {
       return {
         dataBaru: {
           ...prevData.dataBaru,
-          body: event.target.value,
+          body:
+            event.target.value.length < 255
+              ? event.target.value
+              : event.target.value.slice(0, 255),
         },
       };
     });
@@ -64,14 +57,22 @@ class MyNote extends React.Component {
     event.preventDefault();
 
     this.setState({
-      data: [...this.state.data, this.state.dataBaru],
+      data: [
+        ...this.state.data,
+        {
+          id: +new Date(),
+          title: this.state.dataBaru.title,
+          body: this.state.dataBaru.body,
+          archived: false,
+          createdAt: new Date(),
+        },
+      ],
     });
 
     this.setState((prevData) => {
       return {
         dataBaru: {
           ...prevData.dataBaru,
-          id: "",
           title: "",
           body: "",
         },
